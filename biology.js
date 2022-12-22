@@ -33,41 +33,51 @@ function translateNucleotides(nucleotides) {
     const nucleotide = nucleotides[i];
 
     // If the flag is set to true, use the DNA to RNA map to translate the nucleotide
-    if (nucleotides.includes('T')) {
+    if (nucleotides.includes('T') && nucleotides.includes('U')) {
+      output = 'NOT A VALID SEQUENCE! URACIL AND THYMINE DO NOT MIX!!!'
+    }
+    else if (nucleotides.includes('T')) {
       output += dnaToRNA[nucleotide];
     }
     // Otherwise, use the RNA to DNA map to translate the nucleotide
     else {
       output += rnaToDNA[nucleotide];
     }
-    if (nucleotides.includes('T') && nucleotides.includes('U')) {
-      output = 'NOT A VALID SEQUENCE! URACIL AND THYMINE DO NOT MIX!!!'
-    }
+
   }
 
   // Return the output string
   return output;
 }
 
-input.addEventListener('keydown', function(event) {
-  switch (event.code) {
-    case 'ShiftLeft':
-    case 'ShiftRight':
-    case 'CapsLock':
-    case 'KeyA':
-    case 'KeyC':
-    case 'KeyG':
-    case 'KeyT':
-    case 'KeyU':
-    case 'Delete':
-    case 'Backspace':
-      setInterval(() => {
-        output.innerHTML = translateNucleotides(input.value)
-      }, 250);
-      break;
-    default:
-      event.preventDefault();
-      break;
-  }
+//Not as elegant as function below but definitely good to keep in mind! 
+// input.addEventListener('keydown', function(event) {
+//   switch (event.code) {
+//     case 'ShiftLeft':
+//     case 'ShiftRight':
+//     case 'CapsLock':
+//     case 'KeyA':
+//     case 'KeyC':
+//     case 'KeyG':
+//     case 'KeyT':
+//     case 'KeyU':
+//     case 'Delete':
+//     case 'Backspace':
+//       setInterval(() => {
+//         output.innerHTML = translateNucleotides(input.value)
+//       }, 250);
+//       break;
+//     default:
+//       event.preventDefault();
+//       break;
+//   }
+// });
+
+input.addEventListener('input', function(event) {
+  this.value = this.value.replace(/[^AaCcGgTtUu]/g, '')
+  setInterval(() => {
+    output.innerHTML = translateNucleotides(input.value)
+  }, 250);
 });
+
 
