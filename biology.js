@@ -8,20 +8,12 @@ function translateNucleotides(nucleotides) {
     'C': 'G',
     'G': 'C',
     'T': 'A',
-    'a': 'U',
-    'c': 'G',
-    'g': 'C',
-    't': 'A'
   };
   const rnaToDNA = {
     'A': 'T',
     'C': 'G',
     'G': 'C',
     'U': 'A',
-    'a': 'T',
-    'c': 'G',
-    'g': 'C',
-    'u': 'A'
   };
 
   // Initialize an empty output string
@@ -73,11 +65,9 @@ function translateNucleotides(nucleotides) {
 // });
 
 input.addEventListener('input', function(event) {
-  this.value = this.value.replace(/[^AaCcGgTtUu]/g, '')
+  this.value = this.value.toUpperCase()
+  this.value = this.value.replace(/[^ACGTU]/g, '')
   setInterval(() => {
     output.innerHTML = translateNucleotides(input.value)
   }, 250);
 });
-
-
-
