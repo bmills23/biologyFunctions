@@ -10,7 +10,7 @@ function translateNucleotides(nucleotides) {
     'T': 'A',
     'a': 'U',
     'c': 'G',
-    'c': 'C',
+    'g': 'C',
     't': 'A'
   };
   const rnaToDNA = {
@@ -50,7 +50,6 @@ function translateNucleotides(nucleotides) {
   return output;
 }
 
-//Not as elegant as function below but definitely good to keep in mind! 
 // input.addEventListener('keydown', function(event) {
 //   switch (event.code) {
 //     case 'ShiftLeft':
@@ -79,5 +78,6 @@ input.addEventListener('input', function(event) {
     output.innerHTML = translateNucleotides(input.value)
   }, 250);
 });
+
 
 
