@@ -117,20 +117,50 @@ function translateCodons(codons) {
    function getAminoAcids(codonsString) {
     const codonArray = codonsString.split('-')
     let aminoAcids = []
+
     if (codonsString.includes('U')) {
+
       for (let i = 0; i < codonArray.length; i++) {
         const codon = codonArray[i];
-        const translated = translateNucleotides(codon)
-        aminoAcids.push(DNACodonTable[translated[1]])
+        const translated = translateNucleotides(codon)[1]
+        console.log(translated)
+        aminoAcids.push(DNACodonTable[translated])
        }
-       return aminoAcids.join('-')
-   } else {
-    for (let i = 0; i < codonArray.length; i++) {
-      const codon = codonArray[i];
-      aminoAcids.push(DNACodonTable[codon])
+
+       return aminoAcids.join(' - ')
+
+   } else if (codonsString.includes('T')) {
+
+      for (let i = 0; i < codonArray.length; i++) {
+        const codon = codonArray[i];
+        aminoAcids.push(DNACodonTable[codon])
+      }
+
+      return aminoAcids.join(' - ')
+
+   } else if ((codonsString.includes('A') || 
+              codonsString.includes('C') || 
+              codonsString.includes('G')) && 
+              (!codonsString.includes('T') && 
+              !codonsString.includes('U'))) {
+
+      for (let i = 0; i < codonArray.length; i++) {
+
+        const codon = codonArray[i];
+        const translated = translateNucleotides(codon)[1]
+        const translatedTwice = translateNucleotides(translated)[0]
+        aminoAcids.push(DNACodonTable[translatedTwice] + ' if DNA Input ' + ' OR ' + DNACodonTable[translated] + ' if RNA Input')
+        if ((codonArray.join('').length < 3 )) {
+          aminoAcids = []
+        } else if ((codonArray.join('').length % 3 !== 0) && codonArray.length > 1) {
+          codonArray.pop();
+        }
+      }
+
+      return aminoAcids.join(' - ')
+
     }
-    return aminoAcids.join('-')
-   }
+
   }
 
  return getAminoAcids(codons)
@@ -152,19 +182,28 @@ input.addEventListener('input', function(event) {
   this.value = this.value.toUpperCase()
   this.value = addHyphens(this.value.replace(/[^ACGTU]/g, ''))
   setInterval(() => {
+
     var values = translateNucleotides(input.value)
     var codons = translateCodons(input.value)
+
     if (values[0] === 'NOT A VALID SEQUENCE! URACIL AND THYMINE DO NOT MIX!!!') {
       stringoutput.innerHTML = values[0]
       altoutput.innerHTML = values[0]
       codonoutput.innerHTML = values[0]
+
     } else {
+
       var values = translateNucleotides(input.value.replace(/-/g, ""))
-      altoutput.innerhtml = stringoutput.innerHTML
+      altoutput.innerHTML = stringoutput.innerHTML
       stringoutput.innerHTML = addHyphens(values[0])
       altoutput.innerHTML = addHyphens(values[1])
       codonoutput.innerHTML = codons
+      if (this.value === '') {
+        codonoutput.innerHTML = ''
+      }
     }
+
   }, 250);
+
 });
 
