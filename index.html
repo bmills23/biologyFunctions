@@ -4,16 +4,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+    <title>Biology-Related Scripts</title>
 </head>
 <body>
-
+    <h1>Biology Scripts</h1>
     <form id="nucleotideForm">
         <label for="baseinput">Input DNA or RNA String for Transcription</label>
         <input name="baseinput" id="myInput" type="text" pattern="[aAcCgGtTuU]*">
     </form>
-    <span>Reminder Valid Bases: A, C, G, T, U</span>
-    <p>Output:<p id="output"></p></p>
+    <span>Reminder: Valid Bases: A, C, G, T, U</span>
+    <p id="outputParent">
+        <h2>RNA</h2><p id="output"></p>
+        <h2>DNA</h2><p id="output2"></p>
+        <h2>Amino Acids</h2><p id="output3"></p>
+    </p>
     <script src="biology.js"></script>
 </body>
 </html>
+
