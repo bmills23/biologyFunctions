@@ -1,0 +1,11 @@
+#output, #output2 {
+    height: auto;
+    min-height: 100px;
+    max-width: 75%;
+    word-wrap: break-word;
+    text-align: justify;
+}
+
+#myInput {
+    resize: both;
+}
