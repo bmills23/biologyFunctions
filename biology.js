@@ -149,7 +149,7 @@ function translateCodons(codons) {
         const codon = codonArray[i];
         const translated = translateNucleotides(codon)[1]
         const translatedTwice = translateNucleotides(translated)[0]
-        aminoAcids.push(DNACodonTable[translatedTwice] + ' if DNA Input ' + ' OR ' + DNACodonTable[translated] + ' if RNA Input')
+        aminoAcids.push(DNACodonTable[translatedTwice] + ' if DNA ' + ' OR ' + DNACodonTable[translated] + ' if RNA')
         if ((codonArray.join('').length < 3 )) {
           aminoAcids = []
         } else if ((codonArray.join('').length % 3 !== 0) && codonArray.length > 1) {
