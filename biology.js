@@ -1,8 +1,11 @@
 const input = document.getElementById('myInput')
-const output = document.getElementById('output')
+const stringoutput = document.getElementById('output')
+const altoutput = document.getElementById('output2')
+const codonoutput = document.getElementById('output3')
+const outputParent = document.getElementById('outputParent')
 
 function translateNucleotides(nucleotides) {
-  // Create maps of DNA nucleotide to RNA bases and RNA to DNA bases
+
   const dnaToRNA = {
     'A': 'U',
     'C': 'G',
@@ -16,58 +19,152 @@ function translateNucleotides(nucleotides) {
     'U': 'A',
   };
 
-  // Initialize an empty output string
   let output = '';
+  let output2 = '';
 
-  // Loop through each nucleotide in the input string
   for (let i = 0; i < nucleotides.length; i++) {
-    // Get the current nucleotide
+
     const nucleotide = nucleotides[i];
 
-    // If the flag is set to true, use the DNA to RNA map to translate the nucleotide
     if (nucleotides.includes('T') && nucleotides.includes('U')) {
       output = 'NOT A VALID SEQUENCE! URACIL AND THYMINE DO NOT MIX!!!'
+      output2 = output
     }
     else if (nucleotides.includes('T')) {
       output += dnaToRNA[nucleotide];
+      output2 = ''
     }
-    // Otherwise, use the RNA to DNA map to translate the nucleotide
-    else {
-      output += rnaToDNA[nucleotide];
+    else if (nucleotides.includes('U')) {
+      output2 += rnaToDNA[nucleotide];
+      output = ''
     }
+    else if (!nucleotides.includes('U') && !nucleotides.includes('T')) {
+      output += dnaToRNA[nucleotide];
+      output2 += rnaToDNA[nucleotide];
+    }
+  }
+  // Return the output strings
+  return [output, output2]
+}
 
+function translateCodons(codons) {
+  const DNACodonTable = {
+    'AAA' : 'Phenylalanine',
+    'AAG' : 'Phenylalanine',
+    'AAT' : 'Leucine',
+    'AAC' : 'Leucine',
+    'GAA' : 'Leucine',
+    'GAG' : 'Leucine',
+    'GAC' : 'Leucine',
+    'TAA' : 'Isoleucine',
+    'TAG' : 'Isoleucine',
+    'TAT' : 'Isoleucine',
+    'TAC' : 'Methionine',
+    'CAA' : 'Valine',
+    'CAG' : 'Valine',
+    'CAT' : 'Valine',
+    'CAC' : 'Valine',
+    'AGA' : 'Serine',
+    'AGG' : 'Serine',
+    'AGT' : 'Serine',
+    'AGC' : 'Serine',
+    'GGA' : 'Proline',
+    'GGG' : 'Proline',
+    'GGT' : 'Proline',
+    'GGC' : 'Proline',
+    'TGA' : 'Threonine',
+    'TGG' : 'Threonine',
+    'TGT' : 'Threonine',
+    'TGC' : 'Threonine',
+    'CGA' : 'Alanine',
+    'CGG' : 'Alanine',
+    'CGT' : 'Alanine',
+    'CGC' : 'Alanine',
+    'ATA' : 'Tyrosine',
+    'ATG' : 'Tyrosine',
+    'ATT' : 'STOP',
+    'ATC' : 'STOP',
+    'GTA' : 'Histidine',
+    'GTG' : 'Histidine',
+    'GTT' : 'Glutamine',
+    'GTC' : 'Glutamine',
+    'TTA' : 'Asparagine',
+    'TTG' : 'Asparagine',
+    'TTT' : 'Lysine',
+    'TTC' : 'Lysine',
+    'CTA' : 'Aspartic acid',
+    'CTG' : 'Aspartic acid',
+    'CTT' : 'Glutamic acid',
+    'CTC' : 'Glutamic acid',
+    'ACA' : 'Cysteine',
+    'ACG' : 'Cysteine',
+    'ACT' : 'STOP',
+    'ACC' : 'Tryptophan',
+    'GCA' : 'Arginine',
+    'GCG' : 'Arginine',
+    'GCT' : 'Arginine',
+    'GCC' : 'Arginine',
+    'TCA' : 'Serine',
+    'TCG' : 'Serine',
+    'TCT' : 'Arginine',
+    'TCC' : 'Arginine',
+    'CCA' : 'Glycine',
+    'CCG' : 'Glycine',
+    'CCT' : 'Glycine',
+    'CCC' : 'Glycine'
+   }
+
+   function getAminoAcids(codonsString) {
+    const codonArray = codonsString.split('-')
+    let aminoAcids = []
+    if (codonsString.includes('U')) {
+      for (let i = 0; i < codonArray.length; i++) {
+        const codon = codonArray[i];
+        const translated = translateNucleotides(codon)
+        aminoAcids.push(DNACodonTable[translated[1]])
+       }
+       return aminoAcids.join('-')
+   } else {
+    for (let i = 0; i < codonArray.length; i++) {
+      const codon = codonArray[i];
+      aminoAcids.push(DNACodonTable[codon])
+    }
+    return aminoAcids.join('-')
+   }
   }
 
-  // Return the output string
+ return getAminoAcids(codons)
+
+}
+
+function addHyphens(string) {
+  let output = '';
+  for (let i = 0; i < string.length; i++) {
+    output += string[i];
+    if ((i + 1) % 3 === 0 && i !== string.length - 1) {
+      output += '-';
+    }
+  }
   return output;
 }
 
-// input.addEventListener('keydown', function(event) {
-//   switch (event.code) {
-//     case 'ShiftLeft':
-//     case 'ShiftRight':
-//     case 'CapsLock':
-//     case 'KeyA':
-//     case 'KeyC':
-//     case 'KeyG':
-//     case 'KeyT':
-//     case 'KeyU':
-//     case 'Delete':
-//     case 'Backspace':
-//       setInterval(() => {
-//         output.innerHTML = translateNucleotides(input.value)
-//       }, 250);
-//       break;
-//     default:
-//       event.preventDefault();
-//       break;
-//   }
-// });
-
 input.addEventListener('input', function(event) {
   this.value = this.value.toUpperCase()
-  this.value = this.value.replace(/[^ACGTU]/g, '')
+  this.value = addHyphens(this.value.replace(/[^ACGTU]/g, ''))
   setInterval(() => {
-    output.innerHTML = translateNucleotides(input.value)
+    var values = translateNucleotides(input.value)
+    var codons = translateCodons(input.value)
+    if (values[0] === 'NOT A VALID SEQUENCE! URACIL AND THYMINE DO NOT MIX!!!') {
+      stringoutput.innerHTML = values[0]
+      altoutput.innerHTML = values[0]
+      codonoutput.innerHTML = values[0]
+    } else {
+      var values = translateNucleotides(input.value.replace(/-/g, ""))
+      altoutput.innerhtml = stringoutput.innerHTML
+      stringoutput.innerHTML = addHyphens(values[0])
+      altoutput.innerHTML = addHyphens(values[1])
+      codonoutput.innerHTML = codons
+    }
   }, 250);
 });
+
