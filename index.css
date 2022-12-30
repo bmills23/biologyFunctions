@@ -10,3 +10,7 @@
     resize: both;
 }
 
+#amino-dropdown {
+    margin-bottom: 1rem;
+    display: block;
+}

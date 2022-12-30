@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
@@ -9,6 +10,9 @@
 </head>
 <body>
     <h1>Biology Scripts</h1>
+    <ul>
+        <li><a href="protein.html">Protein Converter</a></li>
+      </ul>
     <h2>DNA/RNA Converter</h2>
     <form id="nucleotideForm">
         <label for="baseinput">Input DNA or RNA String for Transcription</label>
@@ -18,9 +22,14 @@
     <p id="outputParent">
         <h3>RNA</h3><p id="output"></p>
         <h3>DNA</h3><p id="output2"></p>
-        <h3>Amino Acids</h3><span id="output3"></span>
+        <h3>Amino Acids</h3>
+        <select name="amino-dropdown" id="amino-dropdown">
+            <option value="Long" id="long">Long Notation</option>
+            <option value="Short" id="short">Short Notation</option>
+        </select>
+        <span id="output3"></span>
     </p>
-    <script src="biology.js"></script>
+    <script src="dna.js"></script>
 </body>
 </html>
 
